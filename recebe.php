@@ -31,10 +31,10 @@ if(isset($_POST['action'])
         
         // vai cair na prova 32 carac para 40 carac!
         
-        if(!empty($_POST{'checkLembrar'})){
+        if(!empty($_POST{'lembrar'})){
             
             setcookie("nomeUsuario", $nomeUsuário, time()+(365*24*60*60));
-            setcookie("senhaUsuario", $senha, time()+(365*24*60*60));
+            setcookie("senhaUsuario", $senhaUsuário, time()+(365*24*60*60));
         }else{
             if(isset($_COOKIE["nomeUsuario"]))
                 setcookie ('nomeUsuario', '');
