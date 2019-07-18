@@ -53,8 +53,9 @@ if(isset($_POST['action'])
     $nomeUsuário = verificar_entrada($_POST['nomeUsuario']);
     $emailUsuário = verificar_entrada($_POST['emailUsuario']);
     $senhaUsuário = verificar_entrada($_POST['senhaUsuario']);
-    $senhaUsuárioConfirmar = verificar_entrada($_POST['senhaUsuarioConfirmar']);
-    $criado = date("Y-m-d"); //Cria uma data Ano-mês-dia
+    $senhaUsuárioConfirmar = 
+    verificar_entrada($POST("senhaUsuarioConfirmar"));
+    $criado = date("Y-m-d H:i:s"); //Cria uma data Ano-mês-dia
     
     //Gerar um hash para as senhas
     $senha = sha1($senhaUsuário);
