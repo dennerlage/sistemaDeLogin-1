@@ -96,7 +96,15 @@ if(isset($_POST['action'])
                 echo "Algo deu errado. Por favor, tente novamente.";            
         }
     }
-} else {
+} 
+    elseif(isset($_POST['action']) 
+    && $_POST['action'] == 'gerar'){
+        echo "Gerando nova senha";
+        $emaiGerarSenha = verificar_entrada($POST['emailGerarSenha']);
+        echo $emailGerarSenha;
+}
+
+else {
     
    header("location:index.php"); //redireciona ao acessar este arquivo diretamente
    //só funciona quando nada esta impresso na tela

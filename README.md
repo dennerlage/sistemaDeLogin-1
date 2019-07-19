@@ -19,3 +19,6 @@ Cadastro de usuário no banco de dados
 
 ## aula06 - 11/07/2019
 Validação de Sessão
+
+#aula07 18 de julho de 2019
+Sessão e Cookie funcionado, preparação para recuperar senha.:cookie:
