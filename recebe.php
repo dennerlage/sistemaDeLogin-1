@@ -53,9 +53,9 @@ if(isset($_POST['action'])
     $nomeUsuário = verificar_entrada($_POST['nomeUsuario']);
     $emailUsuário = verificar_entrada($_POST['emailUsuario']);
     $senhaUsuário = verificar_entrada($_POST['senhaUsuario']);
-    $senhaUsuárioConfirmar = 
-    verificar_entrada($POST("senhaUsuarioConfirmar"));
-    $criado = date("Y-m-d H:i:s"); //Cria uma data Ano-mês-dia
+    $senhaUsuárioConfirmar =
+    verificar_entrada($_POST["senhaUsuarioConfirmar"]);
+    $criado = date("Y-m-d H:i:s");//Cria uma data Ano-mês-dia
     
     //Gerar um hash para as senhas
     $senha = sha1($senhaUsuário);
@@ -99,9 +99,27 @@ if(isset($_POST['action'])
 } 
     elseif(isset($_POST['action']) 
     && $_POST['action'] == 'gerar'){
-        echo "Gerando nova senha";
-        $emaiGerarSenha = verificar_entrada($POST['emailGerarSenha']);
-        echo $emailGerarSenha;
+        $emailGerarSenha = verificar_entrada($_POST["emailGerarSenha"]);
+        $sql = $conexão->prepare("SELECT idUsuario FROM usuario where email=?");
+        $sql->bind_param("s",$emailGerarSenha);
+        $sql->execute();
+        $resposta = $sql->get_result();
+        if($resposta->num_rows > 0){#email existe no banco de dados
+            #geração de token, 10 char aleatorios
+            $frase = "humildemandemaisopaitachatoolokinhomeu";
+            $palavra_secreta = str_shuffle($frase);
+            $token = substr($palavra_secreta, 0,10);
+            
+            $sql = $conexão->prepare("UPDATE usuario set token=?, tokenExpirado=DATE_ADD(now(),INTERVAL 5 MINUTE)"
+                    . "WHERE email=?");
+            $sql->bind_param("ss",$token,$emailGerarSenha);
+            $sql->execute();
+            #simulação do email, envio do link pro email, token enviado pelo email
+            $link = "<p><a href='http://localhost:8080/sistemaDeLogin-1/gerarSenha.php?email=$emailGerarSenha&token=$token'>Clique aqui</a> para gerar uma nova senha.</p>";
+            echo $link;
+        }else{#email não existe 
+            echo "<strong class='text-danger'>Email não encontrado</strong>";
+        }
 }
 
 else {
